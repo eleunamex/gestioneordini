@@ -54,6 +54,12 @@ public class ArticoloServiceImpl implements ArticoloService {
 		try {
 			entityManager.getTransaction().begin();
 			articoloDAO.setEntityManager(entityManager);
+			// controllo
+			Articolo a = articoloDAO.get(articoloInstance.getId());
+			if (a.getOrdine() != null) {
+				throw new Exception("Non puoi modificare un articolo ordinato");
+			}
+
 			articoloDAO.update(articoloInstance);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -63,12 +69,22 @@ public class ArticoloServiceImpl implements ArticoloService {
 		}
 	}
 
+	
 	@Override
 	public void inserisciNuovo(Articolo articoloInstance) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			articoloDAO.setEntityManager(entityManager);
+
+			// controllo
+			List<Articolo> lista = articoloDAO.list();
+			for (Articolo c : lista) {
+				if (c.equals(articoloInstance)) {
+					throw new Exception("Articolo già presente");
+				}
+			}
+
 			articoloDAO.insert(articoloInstance);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -84,6 +100,12 @@ public class ArticoloServiceImpl implements ArticoloService {
 		try {
 			entityManager.getTransaction().begin();
 			articoloDAO.setEntityManager(entityManager);
+			// controllo
+			Articolo a = articoloDAO.get(articoloInstance.getId());
+			if (a.getOrdine() != null) {
+				throw new Exception("Non puoi eliminare un articolo ordinato");
+			}
+
 			articoloDAO.delete(articoloInstance);
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -104,6 +126,12 @@ public class ArticoloServiceImpl implements ArticoloService {
 
 			articoloEsistente = entityManager.merge(articoloEsistente);
 			categoriaInstance = entityManager.merge(categoriaInstance);
+			// controllo
+			for (Categoria c : articoloEsistente.getCategorie()) {
+				if (c.equals(categoriaInstance)) {
+					throw new Exception("L'articolo appartiene già a questa categoria ");
+				}
+			}
 
 			articoloEsistente.getCategorie().add(categoriaInstance);
 
@@ -127,7 +155,7 @@ public class ArticoloServiceImpl implements ArticoloService {
 
 			articoloInstance = entityManager.merge(articoloInstance);
 			ordineInstance = entityManager.merge(ordineInstance);
-
+			// controllo
 			for (Articolo art : ordineInstance.getArticoli()) {
 				if (art.equals(articoloInstance)) {
 					throw new Exception("Articolo già incluso");

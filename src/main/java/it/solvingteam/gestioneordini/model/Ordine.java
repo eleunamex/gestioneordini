@@ -74,7 +74,37 @@ public class Ordine {
 		return "Ordine [id: " + id + ", nomeDestinatario: " + nomeDestinatario + ", indirizzoSpedizione: "
 				+ indirizzoSpedizione + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((indirizzoSpedizione == null) ? 0 : indirizzoSpedizione.hashCode());
+		result = prime * result + ((nomeDestinatario == null) ? 0 : nomeDestinatario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ordine other = (Ordine) obj;
+		if (indirizzoSpedizione == null) {
+			if (other.indirizzoSpedizione != null)
+				return false;
+		} else if (!indirizzoSpedizione.equals(other.indirizzoSpedizione))
+			return false;
+		if (nomeDestinatario == null) {
+			if (other.nomeDestinatario != null)
+				return false;
+		} else if (!nomeDestinatario.equals(other.nomeDestinatario))
+			return false;
+		return true;
+	}
 	
 	
 }

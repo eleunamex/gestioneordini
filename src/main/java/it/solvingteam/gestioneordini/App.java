@@ -40,9 +40,8 @@ public class App {
 //			}
 			
 			a=articoloService.caricaSingoloElemento(5l);
-			o=ordineService.caricaSingoloElemento(3l);
-			
-			articoloService.aggiungiOrdine(a, o);
+			articoloService.rimuovi(a);
+
 
 //			Ordine o = ordineService.caricaSingoloElemento(1l);
 //			a=articoloService.caricaSingoloElemento(1l);

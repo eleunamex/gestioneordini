@@ -72,7 +72,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			List<Categoria> lista = categoriaDAO.list();
 			for (Categoria c : lista) {
 				if (c.equals(categoriaInstance)) {
-					throw new Exception("Categoria esistente");
+					throw new Exception("Categoria già presente");
 				}
 			}
 			categoriaDAO.insert(categoriaInstance);
